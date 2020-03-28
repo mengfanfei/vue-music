@@ -2,7 +2,7 @@ const autoprefixer = require('autoprefixer')
 const pxtorem = require('postcss-pxtorem')
 const path = require('path')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, './', dir)
 }
 
@@ -39,5 +39,16 @@ module.exports = {
     config.module
       .rule('images')
       .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+  },
+  configureWebpack: {
+    resolve: {
+      alias: { // 配置别名
+        assets: '@/assets',
+        api: '@/api',
+        components: '@/components',
+        utils: '@/utils',
+        views: '@/views'
+      }
+    }
   }
 }
