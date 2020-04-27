@@ -14,8 +14,9 @@ module.exports = {
         plugins: [
           autoprefixer(),
           pxtorem({
-            rootValue: 37.5,
-            propList: ['*']
+            rootValue: 75,
+            propList: ['*'],
+            selectorBlackList: ['van'] // 过滤的类名
           })
         ]
       }
