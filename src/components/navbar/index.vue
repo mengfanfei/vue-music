@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header" :class="[className, {fixedClass: fixed}]">
+    <div class="navbar" :class="[className, {fixedClass: fixed}]" :style="{backgroundColor: bgColor}">
       <div class="left">
         <slot name="left"></slot>
       </div>
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'Header',
+  name: 'NavBar',
   props: {
     className: {
       type: String,
@@ -26,37 +26,42 @@ export default {
     fixed: {
       type: Boolean,
       default: false
+    },
+    bgColor: {
+      type: String,
+      default: '#ffffff'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.header {
-  height: 88px;
+@import 'assets/css/navbar.scss';
+.navbar {
+  height: $navbarHeight;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  background: #fff;
-  font-size: 32px;
+  text-align: center;
   .left, .right {
-    width: 115px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: $navbarSideWidth;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
   }
   .center {
-    width: 520px;
+    flex: 1;
   }
 }
 .no-fixed {
-  height: 88px;
+  height: $navbarHeight;
   width: 100vw;
 }
 .fixedClass {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   z-index: 5001;
 }
 </style>
