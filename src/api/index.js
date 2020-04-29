@@ -8,3 +8,19 @@ export function getBanner() {
     url: '/banner?type=2'
   })
 }
+
+/**
+ * 首页获取歌单
+ * @param {String} cat 歌单分类tag
+ * @param {Number} limit 取出歌单数量
+ */
+export function getPlayList(limit, cat) {
+  return instance({
+    url: '/top/playlist/highquality',
+    method: 'POST',
+    data: {
+      limit,
+      cat
+    }
+  })
+}

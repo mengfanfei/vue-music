@@ -1,0 +1,14 @@
+<svg id="组_5" data-name="组 5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="46" viewBox="0 0 46 46">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ea584b"/>
+      <stop offset="1" stop-color="#e72c21"/>
+    </linearGradient>
+  </defs>
+  <circle id="椭圆_3" data-name="椭圆 3" cx="23" cy="23" r="23" fill="url(#linear-gradient)"/>
+  <g id="组_4" data-name="组 4">
+    <path id="路径_4" data-name="路径 4" d="M15.63,33.71h-.46a2.669,2.669,0,0,1-2.67-2.67V20.78a2.669,2.669,0,0,1,2.67-2.67h.46a2.669,2.669,0,0,1,2.67,2.67V31.03A2.672,2.672,0,0,1,15.63,33.71Z" fill="#fff"/>
+    <path id="路径_5" data-name="路径 5" d="M23.23,33.71h-.46a2.669,2.669,0,0,1-2.67-2.67V14.96a2.669,2.669,0,0,1,2.67-2.67h.46a2.669,2.669,0,0,1,2.67,2.67V31.03A2.678,2.678,0,0,1,23.23,33.71Z" fill="#fff"/>
+    <path id="路径_6" data-name="路径 6" d="M30.83,33.71h-.46a2.669,2.669,0,0,1-2.67-2.67V24.49a2.669,2.669,0,0,1,2.67-2.67h.46a2.669,2.669,0,0,1,2.67,2.67v6.55A2.676,2.676,0,0,1,30.83,33.71Z" fill="#fff"/>
+  </g>
+</svg>
