@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <router-view />
-    <tabbar v-model="active" active-color="#fe3e31" inactive-color="#969696" route safe-area-inset-bottom>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+
+    <tabbar v-model="active" active-color="#fe3e31" inactive-color="#969696" route safe-area-inset-bottom placeholder>
       <tabbar-item replace to="/home" icon="music-o">发现</tabbar-item>
       <tabbar-item replace to="/video" icon="video-o">视频</tabbar-item>
       <tabbar-item replace to="/personal" icon="contact">我的</tabbar-item>

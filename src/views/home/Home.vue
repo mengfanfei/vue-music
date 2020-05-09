@@ -8,59 +8,37 @@
         <input type="text" class="input">
       </div>
     </nav-bar>
-    <swiper class="swiper" :options="swiperOption">
-      <swiper-slide v-for="item in banners" :key="item.bannerId">
-        <img :src="item.pic" alt="" class="banner-img">
-      </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
+    <home-swiper ref="homeSwiper" v-if="banners.length" :banners="banners"></home-swiper>  <!-- 增加v-if：：： 解决Vue中Swiper循环轮播后默认显示最后一张的问题, 以及解决获取不到swiper对象的问题-->
     <div class="options">
       <div class="options-item" v-for="(item, index) in options" :key="index">
         <svg-icon :icon-class="item.icon" class-name="item-img"></svg-icon>
         <span>{{item.title}}</span>
       </div>
     </div>
-    <div class="module-title">
-      <div>为你精挑细选</div>
-      <div class="module-btn">查看更多</div>
-    </div>
-    <swiper class="playlist" :options="playlistOption">
-      <swiper-slide v-for="item in playList" :key="item.id">
-        <img :src="item.coverImgUrl" alt="" class="playlist-img">
-        <div class="name">{{item.name}}</div>
-      </swiper-slide>
-    </swiper>
+    <home-playlist :playList="playList" title="为你精挑细选" btn-name="查看更多"></home-playlist>
+    <home-songlist :songList="songList" title="好听的华语歌曲精选" btn-name="播放全部"></home-songlist>
+    <home-playlist :playList="playList2" title="累了 就在音乐里放空" btn-name="查看更多"></home-playlist>
   </div>
 </template>
 
 <script>
 // import { Swipe, SwipeItem } from 'vant'
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
 import NavBar from 'components/navbar'
+import HomeSwiper from 'views/home/components/HomeSwiper'
+import HomePlaylist from 'views/home/components/HomePlaylist'
+import HomeSonglist from 'views/home/components/HomeSonglist'
 import { getBanner, getPlayList } from 'api'
 export default {
   name: 'Home',
   components: {
     NavBar,
-    Swiper,
-    SwiperSlide
+    HomeSwiper,
+    HomePlaylist,
+    HomeSonglist
   },
   data() {
     return {
       banners: [],
-      swiperOption: {
-        initialSlide: 1, // 因为loop所以第一个应该为1
-        loop: true,
-        autoplay: {
-          delay: 5000,
-          stopOnLastSlide: false,
-          disableOnInteraction: false
-        },
-        pagination: {
-          el: '.swiper-pagination'
-        }
-      },
       options: [
         { title: '每日推荐', icon: 'mrtj' },
         { title: '歌单', icon: 'playlist' },
@@ -68,12 +46,9 @@ export default {
         { title: '电台', icon: 'radiostation' },
         { title: '直播', icon: 'live' }
       ],
-      playlistOption: {
-        freeMode: true,
-        spaceBetween: 10,
-        slidesPerView: 'auto' // 'auto'则自动根据slides的宽度来设定数量
-      },
-      playList: []
+      playList: [],
+      playList2: [],
+      songList: []
     }
   },
   created() {
@@ -85,14 +60,34 @@ export default {
     getPlayList(6).then(res => {
       this.playList = res.playlists
     })
+    getPlayList(6, '华语').then(res => {
+      this.playList2 = res.playlists
+    })
+  },
+  mounted() {
+
+  },
+  activated() {
+    this.setScrollTop()
+  },
+  beforeRouteLeave (to, from, next) {
+    from.meta.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    next()
+  },
+  deactivated() {
+
   },
   methods: {
+    // 设置位置不变
+    setScrollTop() {
+      document.documentElement.scrollTop = this.$route.meta.scrollTop
+      document.body.scrollTop = this.$route.meta.scrollTop
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import 'assets/css/index.scss';
 #home {
   font-size: 32px;
   height: 2000px;
@@ -108,24 +103,6 @@ export default {
     padding: 0 20px;
     box-sizing: border-box;
     border-radius: 36px;
-  }
-  .banner-img {
-    height: 268px;
-    width: 686px;
-    border-radius: 10px;
-  }
-  .swiper {
-    margin: 32px 0;
-    .swiper-slide {
-      text-align: center;
-    }
-    /deep/.swiper-pagination-bullet {
-      width: 12px;
-      height: 12px;
-    }
-    /deep/.swiper-pagination-bullet-active {
-      background: $theme-color;
-    }
   }
   .options {
     display: flex;
@@ -147,53 +124,5 @@ export default {
       }
     }
   }
-  .module-title {
-    padding: 0 30px 0 34px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #323234;
-    font-size: 34px;
-    margin: 58px 0 24px 0;
-    font-weight: bold;
-    .module-btn {
-      height: 52px;
-      line-height: 52px;
-      text-align: center;
-      padding: 0 22px;
-      box-sizing: border-box;
-      font-size: 24px;
-      font-weight: normal;
-      border: 2px solid #e6e6e6;
-      border-radius: 26px;
-    }
-  }
-  .playlist {
-    padding: 0 30px 0 32px;
-    .swiper-slide {
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      width: 210px !important;
-      .playlist-img {
-        height: 210px;
-        border-radius: 10px;
-      }
-      .name {
-        margin: 12px 0;
-        font-size: 24px;
-        line-height: 1.5;
-        color: #474747;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        overflow:hidden;
-        /*! autoprefixer: off */
-        -webkit-box-orient: vertical;
-      }
-    }
-  }
 }
-
 </style>

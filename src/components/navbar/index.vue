@@ -56,6 +56,7 @@ export default {
 .no-fixed {
   height: $navbarHeight;
   width: 100vw;
+  background: transparent;
 }
 .fixedClass {
   position: fixed;

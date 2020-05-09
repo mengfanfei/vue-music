@@ -12,27 +12,47 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      keepAlive: true,
+      scrollTop: 0
+    }
   },
   {
     path: '/video',
     name: 'Video',
-    component: () => import('views/video/Video.vue')
+    component: () => import('views/video/Video.vue'),
+    meta: {
+      keepAlive: true,
+      scrollTop: 0
+    }
   },
   {
     path: '/personal',
     name: 'Personal',
-    component: () => import('views/personal/Personal.vue')
+    component: () => import('views/personal/Personal.vue'),
+    meta: {
+      keepAlive: true,
+      scrollTop: 0
+    }
   },
   {
     path: '/square',
     name: 'Square',
-    component: () => import('../views/square/Square.vue')
+    component: () => import('../views/square/Square.vue'),
+    meta: {
+      keepAlive: true,
+      scrollTop: 0
+    }
   },
   {
     path: '/settings',
     name: 'Settings',
-    component: () => import('views/settings/Settings.vue')
+    component: () => import('views/settings/Settings.vue'),
+    meta: {
+      keepAlive: true,
+      scrollTop: 0
+    }
   }
 ]
 
