@@ -17,6 +17,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import NavBar from 'components/navbar'
+import { mapState } from 'vuex'
 export default {
   name: 'Video',
   components: {
@@ -31,6 +32,18 @@ export default {
         slidesPerView: 'auto' // 'auto'则自动根据slides的宽度来设定数量
       }
     }
+  },
+  computed: {
+    ...mapState({
+      account: 'account'
+    })
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (!vm.account) {
+        vm.$router.replace(`/login?redirect=${to.path}`)
+      }
+    })
   }
 }
 </script>

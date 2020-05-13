@@ -24,3 +24,12 @@ export function getPlayList(limit, cat) {
     }
   })
 }
+
+/**
+ * 获取登录状态
+ */
+export function loginStatus() {
+  return instance({
+    url: '/login/status'
+  })
+}

@@ -39,7 +39,7 @@ const routes = [
   {
     path: '/square',
     name: 'Square',
-    component: () => import('../views/square/Square.vue'),
+    component: () => import('views/square/Square.vue'),
     meta: {
       keepAlive: true,
       scrollTop: 0
@@ -53,6 +53,11 @@ const routes = [
       keepAlive: true,
       scrollTop: 0
     }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('views/login/Login.vue')
   }
 ]
 

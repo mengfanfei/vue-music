@@ -90,7 +90,6 @@ export default {
 <style lang="scss" scoped>
 #home {
   font-size: 32px;
-  height: 2000px;
   .icon-left {
     font-size: 46px;
     color: #000000;
