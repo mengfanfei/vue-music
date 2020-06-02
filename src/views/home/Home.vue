@@ -8,21 +8,27 @@
         <input type="text" class="input">
       </div>
     </nav-bar>
-    <home-swiper ref="homeSwiper" v-if="banners.length" :banners="banners"></home-swiper>  <!-- 增加v-if：：： 解决Vue中Swiper循环轮播后默认显示最后一张的问题, 以及解决获取不到swiper对象的问题-->
-    <div class="options">
-      <div class="options-item" v-for="(item, index) in options" :key="index">
-        <svg-icon :icon-class="item.icon" class-name="item-img"></svg-icon>
-        <span>{{item.title}}</span>
+    <pull-refresh
+      v-model="isLoading"
+      success-text="刷新成功"
+      @refresh="onRefresh"
+    >
+      <home-swiper ref="homeSwiper" v-if="banners.length" :banners="banners"></home-swiper>  <!-- 增加v-if：：： 解决Vue中Swiper循环轮播后默认显示最后一张的问题, 以及解决获取不到swiper对象的问题-->
+      <div class="options">
+        <div class="options-item" v-for="(item, index) in options" :key="index">
+          <svg-icon :icon-class="item.icon" class-name="item-img"></svg-icon>
+          <span>{{item.title}}</span>
+        </div>
       </div>
-    </div>
-    <home-playlist :playList="playList" title="为你精挑细选" btn-name="查看更多"></home-playlist>
-    <home-songlist :songList="songList" title="好听的华语歌曲精选" btn-name="播放全部"></home-songlist>
-    <home-playlist :playList="playList2" title="累了 就在音乐里放空" btn-name="查看更多"></home-playlist>
+      <home-playlist :playList="playList" title="为你精挑细选" btn-name="查看更多"></home-playlist>
+      <home-songlist :songList="songList" title="好听的华语歌曲精选" btn-name="播放全部"></home-songlist>
+      <home-playlist :playList="playList2" title="累了 就在音乐里放空" btn-name="查看更多"></home-playlist>
+    </pull-refresh>
   </div>
 </template>
 
 <script>
-// import { Swipe, SwipeItem } from 'vant'
+import { PullRefresh } from 'vant'
 import NavBar from 'components/navbar'
 import HomeSwiper from 'views/home/components/HomeSwiper'
 import HomePlaylist from 'views/home/components/HomePlaylist'
@@ -34,10 +40,12 @@ export default {
     NavBar,
     HomeSwiper,
     HomePlaylist,
-    HomeSonglist
+    HomeSonglist,
+    PullRefresh
   },
   data() {
     return {
+      isLoading: false,
       banners: [],
       options: [
         { title: '每日推荐', icon: 'mrtj' },
@@ -52,17 +60,7 @@ export default {
     }
   },
   created() {
-    getBanner().then(res => {
-      this.banners = res.banners
-    }).catch(err => {
-      alert(JSON.stringify(err))
-    })
-    getPlayList(6).then(res => {
-      this.playList = res.playlists
-    })
-    getPlayList(6, '华语').then(res => {
-      this.playList2 = res.playlists
-    })
+    this.onload()
   },
   mounted() {
 
@@ -82,6 +80,26 @@ export default {
     setScrollTop() {
       document.documentElement.scrollTop = this.$route.meta.scrollTop
       document.body.scrollTop = this.$route.meta.scrollTop
+    },
+    // 加载页面获取的数据
+    onload() {
+      getBanner().then(res => {
+        this.banners = res.banners
+      }).catch(err => {
+        alert(JSON.stringify(err))
+      })
+      getPlayList(6).then(res => {
+        this.playList = res.playlists
+      })
+      getPlayList(6, '华语').then(res => {
+        this.playList2 = res.playlists
+      })
+    },
+    onRefresh() {
+      Promise.all([getBanner(), getPlayList(6), getPlayList(6, '华语')]).then(res => {
+        console.log(res)
+        this.isLoading = false
+      })
     }
   }
 }
